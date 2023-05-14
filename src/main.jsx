@@ -7,6 +7,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import App from './App.jsx'
 import Home from './pages/Home.jsx';
 import Auth from './pages/Auth';
+import ForgotPass from './pages/ForgotPass';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/" element={<Home />} />
           <Route path="register" element={<Auth newAccount />} />
           <Route path="login" element={<Auth />} />
+          <Route path="forgot" element={<ForgotPass />} />
         </Route>
       </Routes>
     </Router>
