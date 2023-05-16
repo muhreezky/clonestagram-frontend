@@ -67,10 +67,10 @@ export default function Detail () {
         </div>
         <div>{(new Date(query.data?.createdAt)).toString()}</div>
         <div>
-          <h1>Comments</h1><hr />
+          <h1 className="mb-4 font-bold">Comments</h1><hr />
           {comments.data?.rows.map((val) => {
             return (
-              <div className="mb-3">
+              <div className="mb-2 p-3" key={val.comment_id}>
                 {val.comment_text}
               </div>
             )

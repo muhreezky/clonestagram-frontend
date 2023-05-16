@@ -68,6 +68,7 @@ export default function Posts() {
               <Card.Body onClick={() => navigate(`/detail/${val.post_id}`)}>
                 <Card.Title className="mb-3">@{val.username}</Card.Title>
                 <div>{val.caption}</div>
+                <div>Likes : {val.likes}</div>
                 <div>{new Date(val.createdAt).toString()}</div>
               </Card.Body>
               <Card.Actions className="p-5">
