@@ -2,6 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { Navbar } from "react-daisyui";
 import ToggleDark from "./components/ToggleDark";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import Logout from "./components/Logout";
 
 function App() {
   const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ function App() {
           </h1>
         </Navbar.Center>
         <Navbar.End>
+          <Logout />
           <ToggleDark />
         </Navbar.End>
       </Navbar>

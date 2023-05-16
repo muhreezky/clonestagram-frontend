@@ -1,7 +1,7 @@
-import { Button, Hero, Form } from "react-daisyui";
-import { useFormik } from "formik";
+import { Button, Hero } from "react-daisyui";
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { ClipLoader } from "react-spinners";
 import verificationReq from "../api/verificationReq";
 import Swal from "sweetalert2";
 
@@ -15,16 +15,16 @@ export default function Unverified() {
       Swal.fire({
         title: "E-mail sent",
         text: `A verification link has been sent to your e-mail, please check it out`,
-        icon: "info"
+        icon: "info",
       }).then((res) => {
         setRefreshTime(30);
-      })
-    }
+      });
+    },
   });
 
   const sendVerif = () => {
     setDisabled(true);
-    mutation.mutate(null)
+    mutation.mutate(null);
   };
 
   useEffect(() => {
@@ -44,15 +44,24 @@ export default function Unverified() {
     <Hero>
       <Hero.Overlay className="bg-base-300 opacity-90" />
       <Hero.Content className="flex justify-center items-center text-xl font-bold flex-col p-8">
-        <div>You aren't verified yet. Please verify your account</div>
-        <Button
-          color="success"
-          className="disabled:shadow-md disabled:shadow-blue-700"
-          disabled={isDisabled}
-          onClick={sendVerif}
-        >
-          {!refreshTime ? "Verify Now" : `Wait ${refreshTime} seconds`}
-        </Button>
+        {mutation.isLoading ? (
+          <div className="flex justify-center items-center flex-col gap-3">
+            <ClipLoader color="#3f66ef" />
+            Loading ...
+          </div>
+        ) : (
+          <>
+            <div>You aren't verified yet. Please verify your account</div>
+            <Button
+              color="success"
+              className="disabled:shadow-md disabled:shadow-blue-700"
+              disabled={isDisabled}
+              onClick={sendVerif}
+            >
+              {!refreshTime ? "Verify Now" : `Wait ${refreshTime} seconds`}
+            </Button>
+          </>
+        )}
       </Hero.Content>
     </Hero>
   );

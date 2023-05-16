@@ -8,7 +8,8 @@ export default yup.object().shape({
   username: yup
     .string()
     .min(4, "Too short (min. 4)")
-    .required("Username is required"),
+    .required("Username is required")
+    .matches(/^[a-z0-9]+$/gi, "Username must be alphanumeric only"),
   password: yup
     .string()
     .min(8, "Too short (min. 8)")

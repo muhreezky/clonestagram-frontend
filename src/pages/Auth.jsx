@@ -164,10 +164,15 @@ export default function Auth(props) {
               </label>
             </div>
           )}
-          <p className="link">
+          <p className="link flex flex-col gap-2">
             <Link to={newAccount ? "/login" : "/register"}>
               {newAccount ? "I already registered" : "I don't have account"}
             </Link>
+            {!newAccount && (
+              <Link to={"/forgot"}>
+                I forgot my password
+              </Link>
+            )}
           </p>
         </Card.Body>
         <Card.Actions className="p-6">
