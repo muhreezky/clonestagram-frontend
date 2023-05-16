@@ -45,11 +45,13 @@ export default function Auth(props) {
         .then(result => {
           (data.access_token && Cookies.set("access_token", data.access_token, { expires: 7 }));
           if (result.isConfirmed || result.isDismissed) {
-            navigate(newAccount ? "/login" : "/");
+            // navigate(newAccount ? "/login" : "/");
+            newAccount ? navigate("/login") : window.location.reload();
           }
         })
       setSubmitDisabled(false);
     },
+    networkMode: "always",
     onError: (err) => {
       Swal.fire({
         title: "Error",

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import App from "./App.jsx";
@@ -11,6 +11,7 @@ import ForgotPass from "./pages/ForgotPass";
 import Verify from "./pages/Verify";
 import NotFound from "./pages/NotFound";
 import ResetPass from "./pages/ResetPass";
+import Detail from "./pages/Detail";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="forgot" element={<ForgotPass />} />
           <Route path="verify/:verify_token" element={<Verify />} />
           <Route path="reset/:reset_token" element={<ResetPass />} />
+          <Route path="detail/:post_id" element={<Detail />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
