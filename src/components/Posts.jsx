@@ -1,15 +1,19 @@
 import { Card, Button } from "react-daisyui";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import showPosts from "../api/showPosts";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector, useDispatch } from "react-redux";
 import getUserById from "../api/getUserById";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import deletePost from "../api/deletePost";
 
 export default function Posts() {
   const [postId, setPostId] = useState(false);
   const posts = useSelector((state) => state.posts.value);
+
+  const queryClient = useQueryClient();
 
   const query = useQuery({
     queryFn: async () => await showPosts(),
@@ -17,13 +21,33 @@ export default function Posts() {
     onSuccess: (data) => console.log(data),
   });
 
+  const mutation = useMutation({
+    mutationFn: async (id) => {
+      console.log(id);
+      await deletePost(id)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["posts"]
+      })
+    }
+  });
+
   const navigate = useNavigate();
 
-  // const uploader = useQuery({
-  //   queryFn: async () => await getUserById(query.data?.user_id),
-  //   queryKey: ["uploader", query.data?.user_id],
-  //   onSuccess: (data) => console.log(data)
-  // });
+  const confirmDelete = (id) => {
+    Swal.fire({
+      title: "Confirm",
+      text: "Do you want to delete this?",
+      icon: "question",
+      showDenyButton: true,
+      confirmButtonText: "Yes"
+    }).then (res => {
+      if (res.isConfirmed) {
+        mutation.mutate(id);
+      }
+    })
+  }
 
   return (
     <>
@@ -35,13 +59,33 @@ export default function Posts() {
             <Card
               key={key}
               className="bg-base-300 shadow-md shadow-blue-700 my-5 hover:cursor-pointer"
-              onClick={() => navigate(`/detail/${val.post_id}`)}
             >
-              <Card.Image src={val.image_url} className="max-w-max max-h-96" />
-              <Card.Body>
+              <Card.Image
+                src={val.image_url}
+                className="max-w-max max-h-96"
+                onClick={() => navigate(`/detail/${val.post_id}`)}
+              />
+              <Card.Body onClick={() => navigate(`/detail/${val.post_id}`)}>
                 <Card.Title className="mb-3">@{val.username}</Card.Title>
                 <div>{val.caption}</div>
+                <div>{new Date(val.createdAt).toString()}</div>
               </Card.Body>
+              <Card.Actions className="p-5">
+                <Button
+                  className="w-full"
+                  color="primary"
+                  onClick={() => navigate(`/detail/${val.post_id}`)}
+                >
+                  Detail
+                </Button>
+                <Button 
+                  className="w-full"
+                  color="error" 
+                  onClick={() => confirmDelete(val.post_id)}
+                >
+                  Delete
+                </Button>
+              </Card.Actions>
             </Card>
           );
         })}

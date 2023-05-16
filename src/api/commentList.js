@@ -5,7 +5,7 @@ import endpoint from "../endpoint";
 export default async function commentList(id) {
   const { access_token } = useLoginData();
 
-  const { data } = await axios.get(`${endpoint}/posts/${id}/likes`, {
+  const { data } = await axios.get(`${endpoint}/posts/${id}/comments`, {
     headers: {
       Authorization: `Bearer ${access_token}`
     }
